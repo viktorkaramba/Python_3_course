@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<Storage xmlns="http://viktorkaramba.com.Lab_1/storage" xmlns:xsd="http://www.w3.org/2001/XMLSchema-instance" xsd:schemaLocation="http://viktorkarmba.com.Lab_1/storage storage.xsd">
+	<Section id="1" name="Food">
+		<Goods id="1" name="Apples" price="1.05" goods_type="fruits"/>
+		<Goods id="2" name="Bananas" price="1.20" goods_type="fruits"/>
+	</Section>
+	<Section id="2" name="Technic">
+		<Goods id="3" name="Iphone 13" price="1000" goods_type="smartphone"/>
+		<Goods id="4" name="PS 5" price="750" goods_type="game console"/>
+	</Section>
+</Storage>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://viktorkaramba.com.Lab_1/storage"
+            xmlns:tns="http://viktorkaramba.com.Lab_1/storage"
+            elementFormDefault="qualified"
+            attributeFormDefault="unqualified">
+
+    <xsd:element name="Storage">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="Section" type="tns:Section" minOccurs="1" maxOccurs="unbounded">
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:complexType name="Section">
+        <xsd:sequence>
+            <xsd:element name="Goods" minOccurs="0" maxOccurs="unbounded">
+            <xsd:complexType>
+                <xsd:attribute name="id" type="xsd:string"/>
+                <xsd:attribute name="name" type="xsd:string"/>
+                <xsd:attribute name="price" type="xsd:string"/>
+                <xsd:attribute name="goods_type" type="xsd:string"/>
+            </xsd:complexType>
+        </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="xsd:string"/>
+        <xsd:attribute name="name" type="xsd:string"/>
+    </xsd:complexType>
+
+
+</xsd:schema>
