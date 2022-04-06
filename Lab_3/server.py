@@ -1,6 +1,6 @@
 import pickle
 import socket
-import sys
+import config
 
 import storage_sql
 
@@ -27,7 +27,7 @@ class Server:
             print(e)
 
     def start(self):
-        self.database = storage_sql.DBController('storage', '0961533469Vi', 'root')
+        self.database = storage_sql.DBController(config.database_name, config.password, config.username)
         try:
             self.client_data = self.client.recv(4096)
             deserialize_data = pickle.loads(self.client_data)
