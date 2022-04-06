@@ -9,9 +9,9 @@ class Storage:
     goods = []
 
     def get_section(self, id):
-        for i in range(len(self.sections)):
-            if self.sections[i].id == id:
-                return self.sections[i]
+        for section in self.sections:
+            if section.id == id:
+                return section
         raise exceptions.NonSectionError
 
     def get_section_ind(self, ind):
@@ -21,9 +21,9 @@ class Storage:
         raise exceptions.MyIndexError
 
     def get_goods(self, id):
-        for i in range(len(self.goods)):
-            if self.goods[i].id == id:
-                return self.goods[i]
+        for goods in self.goods:
+            if goods.id == id:
+                return goods
         raise exceptions.NonGoodsError
 
     def get_goods_ind(self, ind):
@@ -36,39 +36,36 @@ class Storage:
         return len(self.sections)
 
     def add_section(self, id, name):
-        for i in range(len(self.sections)):
-            if self.sections[i].id == id:
+        for section in self.sections:
+            if section.id == id:
                 raise exceptions.AlreadySectionError
         self.sections.append(Section(id, name))
 
     def add_goods(self, id, name, price, section_code, goods_type):
-        section_id = None
         is_section = False
-        for i in range(len(self.sections)):
-            if self.sections[i].id == section_code:
-                section_id = section_code
+        for section in self.sections:
+            if section.id == section_code:
                 is_section = True
-                for j in range(len(self.goods)):
-                    if self.goods[j].id == id:
+                for goods in self.goods:
+                    if goods.id == id:
                         raise exceptions.AlreadyGoodsError
         if is_section:
-            self.goods.append(Goods(id, name, price, section_id, goods_type))
+            self.goods.append(Goods(id, name, price, section_code, goods_type))
         else:
             raise exceptions.NonSectionError
 
     def delete_section(self, id):
         is_section = False
         is_goods = False
-        for i in range(len(self.sections)):
-            if self.sections[i].id == id:
+        for section in self.sections:
+            if section.id == id:
                 is_section = True
-                self.sections.pop(i)
-                print(i)
-                for j in range(len(self.goods)):
-                    if self.goods[j].section_code == id:
+                self.sections.remove(section)
+                for goods in self.goods:
+                    if goods.section_code == id:
                         is_goods = True
-                        print(self.goods[j].id, self.goods[j].name)
-                        self.goods.pop(j)
+                        print(goods.id, goods.name)
+                        self.goods.remove(goods)
                         break
                 break
         if not is_section:
@@ -78,61 +75,45 @@ class Storage:
 
     def delete_goods(self, id):
         is_goods = False
-        for i in range(len(self.goods)):
-            if self.goods[i].id == id:
+        for goods in self.goods:
+            if goods.id == id:
                 is_goods = True
-                self.goods.pop(i)
+                self.goods.remove(goods)
                 break
         if not is_goods:
             raise exceptions.NonGoodsError
 
-    def edit_section(self, id):
-        print('Please select the setting you want to change in section:')
-        print('1 - id')
-        print('2 - name')
-        setting = int(input())
+    def edit_section(self, id, parameter, new_data):
         is_section = False
-        for i in range(len(self.sections)):
-            if self.sections[i].id == id:
+        for section in self.sections:
+            if section.id == id:
                 is_section = True
-                old_id = self.sections[i].id
-                if setting == 1:
-                    new_id = input('Input new id for section:')
-                    self.sections[i].id = new_id
-                    for j in range(len(self.goods)):
-                        if self.goods[j].section_code == old_id:
-                            self.goods[j].section_code = new_id
-                elif setting == 3:
-                    new_name = input('Input new name for section:')
-                    self.sections[i].name = new_name
+                old_id = section.id
+                if parameter == 1:
+                    section.id = new_data
+                    for goods in self.goods:
+                        if goods.section_code == old_id:
+                            goods.section_code = new_data
+                elif parameter == 2:
+                    section.name = new_data
                 else:
                     raise exceptions.InputError('Error input: please choose parameters between 1 and 2')
         if not is_section:
             raise exceptions.NonSectionError
 
-    def edit_goods(self, id):
-        print('Please select the setting you want to change in goods:')
-        print('1 - id')
-        print('2 - name')
-        print('3 - price')
-        print('4 - goods type')
-        setting = int(input())
+    def edit_goods(self, id, parameter, new_data):
         is_goods = False
-        for i in range(len(self.goods)):
-            if self.goods[i].id == id:
+        for goods in self.goods:
+            if goods.id == id:
                 is_goods = True
-                if setting == 1:
-                    new_id = input('Input new id for goods:')
-                    self.goods[i].id = new_id
-                elif setting == 2:
-                    new_name = input('Input new name for goods:')
-                    self.goods[i].name = new_name
-                elif setting == 3:
-                    new_price = input('Input new price for goods:')
-                    self.goods[i].price = new_price
-                elif setting == 4:
-                    new_goods_type = input('Input new goods type for goods:')
-                    self.goods[i].goods_type = new_goods_type
+                if parameter == 1:
+                    goods.id = new_data
+                elif parameter == 2:
+                    goods.name = new_data
+                elif parameter == 3:
+                    goods.price = new_data
+                elif parameter == 4:
+                    goods.goods_type = new_data
                 else:
                     raise exceptions.InputError('Error input: please choose parameters between 1 and 4')
         if not is_goods:
@@ -165,17 +146,17 @@ class Storage:
             f.write(xml_str)
 
     def get_all_list_sections(self):
-        for i in range(len(self.sections)):
-            print('id:', self.sections[i].id, ', name:', self.sections[i].name)
+        for section in self.sections:
+            print('id:', section.id, ', name:', section.name)
 
     def get_all_list_goods(self, section_code):
         is_section = False
-        for i in range(len(self.sections)):
-            if self.sections[i].id == section_code:
+        for section in self.sections:
+            if section.id == section_code:
                 is_section = True
-                for j in range(len(self.goods)):
-                    if self.goods[j].section_code == section_code:
-                        print('id:', self.goods[j].id, ', name:', self.goods[j].name,
-                              ', price:', self.goods[j].price, ', goods type:', self.goods[j].goods_type)
+                for goods in self.goods:
+                    if goods.section_code == section_code:
+                        print('id:', goods.id, ', name:', goods.name,
+                              ', price:', goods.price, ', goods type:', goods.goods_type)
         if not is_section:
             raise exceptions.NonSectionError
