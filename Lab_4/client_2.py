@@ -1,0 +1,32 @@
+from time import sleep
+
+import Pyro4
+
+ns = Pyro4.locateNS()
+uri = ns.lookup('storage_db')
+client = Pyro4.Proxy(uri)
+sleep(2)
+
+print(client.edit_goods(7, 1, 11))
+print(client.get_goods(11))
+print('#'*50)
+sleep(2)
+print(client.edit_section(5, 1, 4))
+print(client.get_all_sections())
+sleep(2)
+print('#'*50)
+print(client.count_goods_by_sections(1))
+sleep(2)
+print('#'*50)
+print(client.delete_goods(9))
+print(client.get_all_goods())
+sleep(2)
+print('#'*50)
+print(client.get_goods_by_name('Bananas'))
+sleep(2)
+print('#'*50)
+print(client.add_goods(4, 2, 'PS 5', 749.99, 'Game console'))
+print(client.get_all_goods())
+sleep(2)
+print('#'*50)
+print(client.delete_sections(4))

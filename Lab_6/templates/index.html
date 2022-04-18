@@ -1,0 +1,42 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{% static 'storage/css/main.css' %}">
+    <title>Main page</title>
+</head>
+<body>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.id_se }}
+        <span>{{ error }}</span>
+        <input type="Submit" name="submit" value="Show" style="background: blue; color: yellow">
+    </form>
+    <div class="container">
+        <div class="aside-block-1"></div>
+            <div class="main_block">
+                <table >
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Goods type</th>
+                    </tr>
+                    {% for good in goods %}
+                    <tr>
+                        <td>{{ good.id_go }}</td>
+                        <td>{{ good.name }}</td>
+                        <td>{{ good.price }}</td>
+                        <td>{{ good.goodstype }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        <div class="aside-block-2"></div>
+    </div>
+</body>
+</html>
